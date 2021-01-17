@@ -7,4 +7,4 @@ Reference site is https://jsprimer.net/
 * npm : 6.14.10
 
 ## Applications
-* [Github Searcher](./Ajax)
+* [Github Searcher](./Github-searcher)
