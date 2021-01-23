@@ -1,11 +1,21 @@
 // import commander module as "program"
 const program = require("commander");
-// import fa module as "fs"
+// import fs module as "fs"
 const fs = require("fs");
+// import marked mosule as "marked"
+const marked = require("marked");
 
+// define gfm option
+program.option("--gfm", "Activate GFM");
 // parse CLI arguments using commander
 program.parse(process.argv);
 const filePath = program.args[0];
+
+// receive CLI option arguments and apply it
+const cliOptions = {
+    gfm: false,
+    ...program.opts(),
+};
 
 // read file async
 fs.readFile(filePath, { encoding: "utf-8" }, (err, file) => {
@@ -14,5 +24,9 @@ fs.readFile(filePath, { encoding: "utf-8" }, (err, file) => {
         process.exit(1);
         return;
     }
-    console.log(file);
+    // convet .md to .html
+    const html = marked(file, {
+        gfm: cliOptions.gfm,
+    });
+    console.log(html);
 })
