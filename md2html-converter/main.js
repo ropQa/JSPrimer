@@ -1,9 +1,9 @@
 // import commander module as "program"
 const program = require("commander");
-// import fs module as "fs"
+// import fs module
 const fs = require("fs");
-// import marked mosule as "marked"
-const marked = require("marked");
+// import md2html module
+const md2html = require("./md2html");
 
 // define gfm option
 program.option("--gfm", "Activate GFM");
@@ -25,8 +25,6 @@ fs.readFile(filePath, { encoding: "utf-8" }, (err, file) => {
         return;
     }
     // convet .md to .html
-    const html = marked(file, {
-        gfm: cliOptions.gfm,
-    });
+    const html = md2html(file, cliOptions);
     console.log(html);
 })
