@@ -3,9 +3,34 @@
   <head>
     <meta charset="utf-8" />
     <title>ToDo App</title>
+    <!-- CSSファイルを読み込み -->
+    <link 
+      rel="stylesheet"
+      href="https://jsprimer.net/use-case/todoapp/final/final/index.css"
+    />
   </head>
   <body>
-    <h1>ToDo App</h1>
+    <!-- class属性をCSSのために指定 -->
+    <div class="todoapp">
+      <!-- id属性をJavaScriptのために指定 -->
+      <form id="js-form">
+        <input
+          id="js-form-input"
+          class="new-todo" 
+          type="text"
+          placeholder="What need to be done?"
+          autocomplete="off"
+        />
+      </form>
+      <!-- ToDoアプリのメインとなるToDoリスト -->
+      <div id="js-todo-list" class="todo-list">
+        <!-- 動的に更新されるToDoリスト -->
+      </div>
+      <footer class="footer">
+        <!-- ToDoアイテム数の表示 -->
+        <span id="js-todo-count">ToDoアイテム数: 0</span>
+      </footer>
+    </div>
     <script type="module" src="index.js"></script>
   </body>
 </html>
