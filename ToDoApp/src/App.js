@@ -1,8 +1,11 @@
-import { element } from "./view/html-util.js";
+import { TodoListModel } from "./model/TodoListModel.js";
+import { TodoItemModel } from "./model/TodoItemModel.js";
+import { element, render } from "./view/html-util.js";
 
 console.log("App.js: loaded");
 export class App {
   constructor() {
+    this.todoListModel = new TodoListModel();
     console.log("App initialized");
   }
   mount() {
@@ -11,19 +14,33 @@ export class App {
     const containerElement = document.querySelector("#js-todo-list");
     const todoItemCountElement = document.querySelector("#js-todo-count")
 
-    let todoItemCount = 0;
+    /**
+     * TodoListModelの状態が更新されたら表示を更新する
+     */
+    this.todoListModel.onChange(() => {
+      const todoListElement = element`<ul />`;
+
+      const todoItems = this.todoListModel.getTodoItems();
+      todoItems.forEach(item => {
+        const todoItemElement = element`<li>${item.title}</li>`;
+        todoListElement.appendChild(todoItemElement);
+      });
+
+      //中身とアイテム数の表示を更新
+      render(todoListElement, containerElement);
+      todoItemCountElement.textContent = `ToDoアイテム数: ${this.todoListModel.getTotalCount()}`;
+    });
+
+    //フォームを送信したら、新しいTodoItemModelを追加する
     formElement.addEventListener("submit", (event) => {
       event.preventDefault();
       console.log(`入力欄の値: ${inputElement.value}`);
-      
-      //入力文字列をリスト要素として追加
-      const todoItemElement = element`<li>${inputElement.value}</li>`;
-      containerElement.appendChild(todoItemElement);
-      
-      //総アイテム数を更新
-      todoItemCount += 1;
-      todoItemCountElement.textContent = `ToDoアイテム数: ${todoItemCount}`;
 
+      this.todoListModel.addTodo(new TodoItemModel({
+        title: inputElement.value,
+        completed: false
+      }));
+      
       //入力欄をリセット
       inputElement.value = "";
     });
