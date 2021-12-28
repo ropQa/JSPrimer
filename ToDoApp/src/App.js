@@ -69,7 +69,9 @@ export class App {
       event.preventDefault();
       console.log(`入力欄の値: ${inputElement.value}`);
 
-      this.handleAdd(inputElement.value);
+      if(inputElement.value) {
+        this.handleAdd(inputElement.value);
+      }
       
       //入力欄をリセット
       inputElement.value = "";
